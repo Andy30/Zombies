@@ -17,6 +17,13 @@ public abstract class Entity {
 	private Rectangle thisEntity = new Rectangle();
 	private Rectangle otherEntity = new Rectangle();
 	
+	
+	/**
+	 * Dan's Javadoc comment of awesomeness
+	 * @param ref
+	 * @param x
+	 * @param y
+	 */
 	public Entity(String ref, int x, int y)  {
 		this.sprite = ImageLoader.get().getSprite(ref);
 		this.x = x;
