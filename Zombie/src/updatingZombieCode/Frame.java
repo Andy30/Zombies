@@ -1,4 +1,4 @@
-package ZombieGame;
+package updatingZombieCode;
 
 import javax.swing.JFrame;
 

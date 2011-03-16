@@ -1,4 +1,4 @@
-package ZombieGame;
+package updatingZombieCode;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
@@ -9,7 +9,7 @@ public abstract class Entity {
 	protected double x;
 	protected double y;
 	//Entity Image
-	protected Sprite sprite;
+	protected drawing sprite;
 	//Speed of the entity (Rate of change)
 	protected double Dy;
 	protected double Dx;
@@ -59,11 +59,5 @@ public abstract class Entity {
 	}
 	public void Draw(Graphics graphic)  {
 		this.sprite.Draw(graphic,(int) x,(int) y);
-	}
-	
-	public boolean collidesWith(Entity e)  {
-		this.thisEntity.setBounds((int) x, (int) y, sprite.getWidth(), sprite.getHeight());
-		this.otherEntity.setBounds((int) e.x, (int) e.y, e.sprite.getWidth(), e.sprite.getHeight());	
-		return thisEntity.intersects(otherEntity);
 	}
 }

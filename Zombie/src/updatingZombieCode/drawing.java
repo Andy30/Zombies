@@ -1,13 +1,13 @@
-package ZombieGame;
+package updatingZombieCode;
 
 import java.awt.Graphics;
 import java.awt.Image;
 
-public class Sprite {
+public class drawing {
 	
 	private Image image1;
 	
-	public Sprite(Image image1)  {
+	public drawing(Image image1)  {
 		this.image1 = image1;
 	}
 	
