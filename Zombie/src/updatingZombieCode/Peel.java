@@ -1,53 +1,44 @@
 package updatingZombieCode;
 
-import java.awt.Image;
-
+/**
+ * A more specific Character describing the inimitable Dr. Peel.
+ * 
+ * @author Andy30
+ */
 public class Peel extends Character {
 	
-	private String[][] roger = { {"/roger_peel.jpg" }, { "/explosion_clip_art_13149.jpg" } };
-	private Image[][] rogerImages;
-	private ImageLoader loadImages;
-	private int xPosition;
-	private int yPosition;
-	private boolean deadOrAlive;
+  /**
+   * crappyHardcodedImageFileLinks
+   * FIXME this is going to cause lots of code duplication
+   */
+  private static String[][] crappyHardcodedImageFileLinks = { {"/roger_peel.jpg" }, { "/explosion_clip_art_13149.jpg" } };
+  
+	/** Whether he's still alive. */
+	private boolean isAlive;
+	
+	/** FIXME I have no idea what this is, should it be in the superclass? */
 	private int setFrame;
 	
-	public Peel(int xMovement, int yMovement, int xPosition, int yPosition) {
-		super(xMovement, yMovement);
-		initializeImages(roger, rogerImages, loadImages);
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-		deadOrAlive = true;
-	}
-	
-	public int getImageHeight()  {
-		return loadImages.getHeight();
-	}
-	
-	public int getImageWidth()  {
-		return loadImages.getWidth();
-	}
-	
-	public int getXPosition()  {
-		return this.xPosition;
-	}
-	
-	public int getYPosition()  {
-		return this.yPosition;
-	}
-	
-	public boolean alive()  {
-		return deadOrAlive;
-	}
-	
-	public void move(double delta)  {
-		xPosition += (delta * getxMovement())/1000;
-		if(xPosition < 0) { xPosition = 0; }
-		if(xPosition + loadImages.getWidth() > 800) { xPosition = 800 - loadImages.getWidth(); }
+	/**
+	 * Makes a Peel.
+	 * @param xPosition
+	 * @param yPosition
+	 * @param xMovement
+	 * @param yMovement
+	 */
+	public Peel(int xPosition, int yPosition, int xMovement, int yMovement) {
+		super(crappyHardcodedImageFileLinks, xPosition, yPosition, xMovement, yMovement);
 		
-		yPosition += (delta * getyMovement())/1000; 
-		if(yPosition < 0){ yPosition = 0; }
-		if(yPosition + loadImages.getHeight() > 600){ yPosition = 600 - loadImages.getHeight(); }
-	}	
+
+		isAlive = true;
+	}
+
+	
+	/**
+	 * @return Whether Roger is still alive
+	 */
+	public boolean alive()  {
+		return isAlive;
+	}
 
 }
