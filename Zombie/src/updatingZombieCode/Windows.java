@@ -5,21 +5,21 @@ import java.awt.Rectangle;
 
 public class Windows extends Enemy {
 
-	private String[][] windows = { {"/windows_logo.jpg" } };
-	private Image[][] windowsImages;
-	private ImageLoader loadImages;
+	private String[][] windows = { {"windows_logo.jpg" } };
+	private Image[][] windowsImages = new Image[1][1];
+	private ImageLoader loadImages = new ImageLoader();
 	private int xWindowPosition;
 	private int yWindowPosition;
 	private int xCharPosition;
 	private int yCharPosition;
 	private boolean deadOrAlive;
-	private Rectangle enemyWindow;
-	private Rectangle characterRect;
+	private Rectangle enemyWindow = new Rectangle();
+	private Rectangle characterRect = new Rectangle();
 	private Peel peel;
 	
 	public Windows(Peel peel, int xCharPosition, int yCharPosition, int xWindowPosition, int yWindowPosition) {
 		super(peel, xCharPosition, yCharPosition);
-		initializeImages(windows, windowsImages, loadImages);
+		this.windowsImages = initializeImages(windows, windowsImages, loadImages);
 		this.xWindowPosition = xWindowPosition;
 		this.yWindowPosition = yWindowPosition;
 		this.xCharPosition = xCharPosition;
@@ -29,11 +29,11 @@ public class Windows extends Enemy {
 	}
 	
 	public int getImageHeight()  {
-		return loadImages.getHeight();
+		return windowsImages[0][0].getHeight(null);
 	}
 	
 	public int getImageWidth()  {
-		return loadImages.getWidth();
+		return windowsImages[0][0].getWidth(null);
 	}
 	
 	public int getXPosition()  {
@@ -46,6 +46,10 @@ public class Windows extends Enemy {
 	
 	public boolean alive()  {
 		return deadOrAlive;
+	}
+	
+	public Image getImageFrame(int direction, int frameNumber)  {
+		return this.windowsImages[direction][frameNumber];
 	}
 	
 	public boolean collidesWith()  {

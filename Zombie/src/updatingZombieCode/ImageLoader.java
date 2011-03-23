@@ -12,7 +12,7 @@ import javax.imageio.ImageIO;
 
 public class ImageLoader {
 	
-	private BufferedImage sourceImage = null;
+	private BufferedImage sourceImage;
 	
 	public ImageLoader()  {
 		

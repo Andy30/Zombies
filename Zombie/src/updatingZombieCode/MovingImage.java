@@ -11,8 +11,8 @@ public abstract class MovingImage  {
 	
 	public Image[][] initializeImages(String[][] ref, Image[][] imageArray, ImageLoader images)  {	 
 		//TODO - Change for loop depending on how many movement actions there are.
-		for (int z = 0; z < 4; z++)  {
-		for (int t = 0; t < 4; t++)  {
+		for (int z = 0; z < 1; z++)  {
+		for (int t = 0; t < 1; t++)  {
 		imageArray[z][t] = images.getImage(ref[z][t]);
 		}
 		}
@@ -21,9 +21,5 @@ public abstract class MovingImage  {
 	
 	public void draw(Graphics graphic, Image image, int x, int y)  {
 		graphic.drawImage(image, x, y, null);
-	}
-	
-	public Image getImage(Image[][] images, int z, int t)  {
-		return images[z][t];
 	}
 }

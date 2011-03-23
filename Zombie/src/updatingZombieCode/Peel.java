@@ -1,44 +1,56 @@
 package updatingZombieCode;
 
-/**
- * A more specific Character describing the inimitable Dr. Peel.
- * 
- * @author Andy30
- */
+import java.awt.Image;
+
 public class Peel extends Character {
 	
-  /**
-   * crappyHardcodedImageFileLinks
-   * FIXME this is going to cause lots of code duplication
-   */
-  private static String[][] crappyHardcodedImageFileLinks = { {"/roger_peel.jpg" }, { "/explosion_clip_art_13149.jpg" } };
-  
-	/** Whether he's still alive. */
-	private boolean isAlive;
+	private String[][] roger = { {"roger_peel.jpg"}};
+	private Image[][] rogerImages = new Image[4][4];
+	private ImageLoader loadImages = new ImageLoader();
+	private int xPosition;
+	private int yPosition;
+	private boolean alive;
 	
-	/** FIXME I have no idea what this is, should it be in the superclass? */
-	private int setFrame;
+	public Peel(int xMovement, int yMovement, int xPosition, int yPosition) {
+		super(xMovement, yMovement);
+		this.rogerImages = initializeImages(roger, rogerImages, loadImages);
+		this.xPosition = xPosition;
+		this.yPosition = yPosition;
+		alive = true;
+	}
 	
-	/**
-	 * Makes a Peel.
-	 * @param xPosition
-	 * @param yPosition
-	 * @param xMovement
-	 * @param yMovement
-	 */
-	public Peel(int xPosition, int yPosition, int xMovement, int yMovement) {
-		super(crappyHardcodedImageFileLinks, xPosition, yPosition, xMovement, yMovement);
+	public int getImageHeight()  {
+		return rogerImages[0][0].getHeight(null);
+	}
+	
+	public int getImageWidth()  {
+		return rogerImages[0][0].getWidth(null);
+	}
+	
+	public int getXPosition()  {
+		return this.xPosition;
+	}
+	
+	public int getYPosition()  {
+		return this.yPosition;
+	}
+	
+	public boolean isAlive()  {
+		return alive;
+	}
+	
+	public Image getImageFrame(int direction, int frameNumber)  {
+		return this.rogerImages[direction][frameNumber];
+	}
+	
+	public void move(double delta)  {
+		xPosition += (delta * getxMovement())/1000;
+		if(xPosition < 0) { xPosition = 0; }
+		if(xPosition + loadImages.getWidth() > 800) { xPosition = 800 - loadImages.getWidth(); }
 		
-
-		isAlive = true;
-	}
-
-	
-	/**
-	 * @return Whether Roger is still alive
-	 */
-	public boolean alive()  {
-		return isAlive;
-	}
+		yPosition += (delta * getyMovement())/1000; 
+		if(yPosition < 0){ yPosition = 0; }
+		if(yPosition + loadImages.getHeight() > 600){ yPosition = 600 - loadImages.getHeight(); }
+	}	
 
 }

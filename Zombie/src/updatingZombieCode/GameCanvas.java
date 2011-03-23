@@ -6,36 +6,43 @@ import java.awt.Graphics;
 import java.awt.event.*;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
+/**
+ * @author Andy Jenkins
+ */
 public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseListener {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8863915821741897184L;
 	final int FWidth = 800;
 	final int FHeight = 600;
-	final public long period = 10;
+	final private int period = 10;
 	private BufferStrategy buffer;
 	private Graphics graphics;
 	private Thread t;
 	private boolean finished = false;
-	int COUNT = 0;
+	private int COUNT = 0;
 	private Peel peel;
-	private Windows[] window;
+	private ArrayList<Windows> window = new ArrayList<Windows>();
 	
 	//Constructor - Builds 
 	public GameCanvas()  {
-		initialize();
+	  this.setIgnoreRepaint(true);
+    this.setBounds(0, 0, FWidth, FHeight);
+    this.setBackground(Color.white);
+    this.setVisible(true);  
+    this.peel = new Peel(10, 20, 25, 80);
+    for(int x = 0; x < 5; x++){
+      this.addRandomZombie();
+    }
 	}
 	
+
 	public void initialize()  {
-		this.setIgnoreRepaint(true);
-		this.setBounds(0, 0, FWidth, FHeight);
-		this.setBackground(Color.white);
-		this.setVisible(true);	
-		this.peel = new Peel(1, 1, 25, 80);
-		for(int x = 0; x < 5; x++){
-			this.addRandomZombie();
-		}
+		
 	}
 	
 	//Method to be called to begin our game, creates/starts a new thread. (If there is no current game in sessions)
@@ -51,9 +58,11 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 		int[] hSide = {1, this.FHeight};
 		int[] vSide = {1, this.FWidth};
 		if(ran.nextInt(2) > 0){
-			 ran.nextInt(this.FWidth, hSide[ran.nextInt(2)]);
+			window.add(new Windows(peel, peel.getXPosition(), peel.getYPosition(), 
+					hSide[ran.nextInt(2)], ran.nextInt(FWidth)));
 		} else {
-			zombies.add(new Zombie("windows_logo_small.jpg", vSide[ran.nextInt(2)], ran.nextInt(FHeight)));
+			window.add(new Windows(peel, peel.getXPosition(), peel.getYPosition(), 
+					vSide[ran.nextInt(2)], ran.nextInt(FHeight)));
 		}
 	}
 	
@@ -89,16 +98,14 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 			}
 			COUNT++;
 		}
-		System.exit(1);
 	}
 	
 	//All entities that require logic - do it.
 	public void Update()  {
 		peel.move(200);
-		
-		for(int y = 0; y < window.length; y++)  {
-			window[y].moveTowards(peel.getXPosition(), peel.getYPosition());
-			if(window[y].collidesWith() == true){
+		for(int y = 0; y < window.size(); y++)  {
+			window.get(y).moveTowards(peel.getXPosition(), peel.getYPosition());
+			if(window.get(y).collidesWith() == true){
 				this.finished = true;
 			}
 		}
@@ -113,10 +120,11 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 		//Turns everything on the screen white, allows us to paint new stuff.
 		graphics.fillRect( 0, 0, FWidth, FHeight);
 		
-		//Paint pretty pictures.
-		peel.draw(graphics, image, x, y)
-		for(int y = 0; y < window.length; y++)  {
-			window[y].draw(graphics, window[y].getImage(wind, z, t), x, y)
+		peel.draw(graphics, peel.getImageFrame(0,0), peel.getXPosition(), 
+				peel.getYPosition());
+		for(int y = 0; y < window.size(); y++)  {
+			window.get(y).draw(graphics, window.get(y).getImageFrame(0, 0), window.get(y).getXPosition(),
+					window.get(y).getYPosition());
 		}
 	}
 	
@@ -134,7 +142,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 
 	@Override
 	public void keyPressed(KeyEvent key) {
-		if (peel.alive() == true)  {
+		if (peel.isAlive() == true)  {
 			if (key.getKeyCode() == KeyEvent.VK_LEFT)  {
 				peel.setxMovement(-1);
 			}
@@ -155,7 +163,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 
 	@Override
 	public void keyReleased(KeyEvent key) {
-		if (peel.alive() == true)  {
+		if (peel.isAlive() == true)  {
 			if (key.getKeyCode() == KeyEvent.VK_LEFT)  {
 				peel.setxMovement(0);
 			}
