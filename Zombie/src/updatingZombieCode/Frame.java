@@ -2,8 +2,16 @@ package updatingZombieCode;
 
 import javax.swing.JFrame;
 
+/**
+ * @author Andy Jenkins
+ */
 public class Frame {
 
+	/**
+	 * The starting point of the game, creates a Swing (*shudder*) window and adds the game canvas to it.
+	 * 
+	 * @param args the command line input arguments
+	 */
 	public static void main(String args[])  {
 		//A bit of swing.
 		

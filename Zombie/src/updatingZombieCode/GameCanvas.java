@@ -13,9 +13,6 @@ import java.util.Random;
  */
 public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8863915821741897184L;
 	final int FWidth = 800;
 	final int FHeight = 600;
@@ -28,7 +25,11 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 	private Peel peel;
 	private ArrayList<Windows> window = new ArrayList<Windows>();
 	
-	//Constructor - Builds 
+	/**
+	 * Creates a new canvas object which displays the game
+	 * 
+	 * Additionally, a Peel and 5 zombies are added to this canvas
+	 */
 	public GameCanvas()  {
 	  this.setIgnoreRepaint(true);
     this.setBounds(0, 0, FWidth, FHeight);
@@ -41,11 +42,10 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 	}
 	
 
-	public void initialize()  {
-		
-	}
 	
-	//Method to be called to begin our game, creates/starts a new thread. (If there is no current game in sessions)
+	/**
+	 * Method to be called to begin our game, creates/starts a new thread. (If there is no current game in progress) 
+	 */
 	public void startGame()  {
 		if (t == null)  {
 			t = new Thread(this);
@@ -66,7 +66,9 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 		}
 	}
 	
-	//Runs the game. (No Menu)
+	/**
+	 * Runs the game. (No Menu)
+	 */
 	public void addNotify()  {
 		super.addNotify();
 		this.createBufferStrategy(2);
@@ -76,20 +78,24 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 		startGame();
 	}
 	
-	//Where the main game is run
+	/**
+	 * Where the main game is run
+	 *
+	 * @see java.lang.Runnable#run()
+	 */
 	public void run()  {	
 		while(!finished){
 			
-			Update();
-			Render();
-			Draw();
+			update();
+			render();
+			draw();
 			
 			long timeTaken = System.currentTimeMillis();
 			//Time we're going to give the machine to do it's garbage ext..
 			long sleepTime = period - timeTaken;
 			
 			try{
-				t.sleep(sleepTime);
+				Thread.sleep(sleepTime);
 			}
 			catch(Exception e){}
 			if(COUNT == 5000){
@@ -100,8 +106,10 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 		}
 	}
 	
-	//All entities that require logic - do it.
-	public void Update()  {
+	/**
+	 * Updates all entities in the canvas for where they should be in the next game frame
+	 */
+	public void update()  {
 		peel.move(200);
 		for(int y = 0; y < window.size(); y++)  {
 			window.get(y).moveTowards(peel.getXPosition(), peel.getYPosition());
@@ -111,8 +119,10 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 		}
 	}
 	
-	//Draws to the back buffer. Unless draw is called it stays in back buffer and you can't see it.
-	public void Render()  {
+	/**
+	 * Draws to the back buffer. Unless draw is called it stays in back buffer and you can't see it.
+	 */
+	public void render()  {
 		//draw to back buffer.
 		graphics = buffer.getDrawGraphics();
 		//set the back buffer to our background colour (white)
@@ -120,16 +130,18 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 		//Turns everything on the screen white, allows us to paint new stuff.
 		graphics.fillRect( 0, 0, FWidth, FHeight);
 		
-		peel.draw(graphics, peel.getImageFrame(0,0), peel.getXPosition(), 
+		peel.draw(graphics, MovingImage.ALIVE, peel.getXPosition(), 
 				peel.getYPosition());
 		for(int y = 0; y < window.size(); y++)  {
-			window.get(y).draw(graphics, window.get(y).getImageFrame(0, 0), window.get(y).getXPosition(),
+			window.get(y).draw(graphics, MovingImage.ALIVE, window.get(y).getXPosition(),
 					window.get(y).getYPosition());
 		}
 	}
 	
-	//Draws stuff to screen.
-	public void Draw()  {
+	/**
+	 * Draws the contents of the back buffer to the front buffer (the screen)
+	 */
+	public void draw()  {
 		//If the buffer contains what we drew to it, show it.
 		if(!buffer.contentsLost())  {
 			buffer.show();
@@ -140,20 +152,26 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 		}
 	}
 
-	@Override
+	/**
+	 * Called whenever a key is pressed
+	 * 
+	 * @param key the code of the key that was pressed
+	 *
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
 	public void keyPressed(KeyEvent key) {
 		if (peel.isAlive() == true)  {
 			if (key.getKeyCode() == KeyEvent.VK_LEFT)  {
-				peel.setxMovement(-1);
+				peel.setXMovement(-1);
 			}
 			if (key.getKeyCode() == KeyEvent.VK_RIGHT)  {
-				peel.setxMovement(1);
+				peel.setXMovement(1);
 			}
 			if (key.getKeyCode() == KeyEvent.VK_UP)  {
-				peel.setyMovement(-1);
+				peel.setYMovement(-1);
 			}
 			if (key.getKeyCode() == KeyEvent.VK_DOWN)  {
-				peel.setyMovement(1);
+				peel.setYMovement(1);
 			}
 			if(key.getKeyCode() == KeyEvent.VK_SPACE){
 				this.COUNT = 5000;
@@ -161,56 +179,94 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 		}
 	}
 
-	@Override
+	/**
+	 * Called whenever a key is released
+	 * 
+	 * @param key the code of the key that was pressed
+	 *
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
 	public void keyReleased(KeyEvent key) {
 		if (peel.isAlive() == true)  {
 			if (key.getKeyCode() == KeyEvent.VK_LEFT)  {
-				peel.setxMovement(0);
+				peel.setXMovement(0);
 			}
 			if (key.getKeyCode() == KeyEvent.VK_RIGHT)  {
-				peel.setxMovement(0);
+				peel.setYMovement(0);
 			}
 			if (key.getKeyCode() == KeyEvent.VK_UP)  {
-				peel.setyMovement(0);
+				peel.setYMovement(0);
 			}
 			if (key.getKeyCode() == KeyEvent.VK_DOWN)  {
-				peel.setyMovement(0);
+				peel.setYMovement(0);
 			}
 		}		
 	}
 
-	@Override
-	public void keyTyped(KeyEvent arg0) {
+	/**
+	 * Called repeatedly while a key is typed (pressed and released)
+	 * 
+	 * @param key the key that was typed
+	 *
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
+	public void keyTyped(KeyEvent key) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
+	/**
+	 * Called whenever a button on the mouse is pressed and released
+	 * 
+	 * @param event the event that caused this method call
+	 */
+	public void mouseClicked(MouseEvent event) {
+		// TODO Auto-generated method stub
+	}
+
+	/**
+	 * Called when the mouse enters the canvas
+	 * 
+	 * @param event the event that caused this method call
+	 *
+	 * @see java.awt.event.MouseListener#mouseEntered(java.awt.event.MouseEvent)
+	 */
+	public void mouseEntered(MouseEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
+	/**
+	 * Called when the mouse exits the canvas
+	 * 
+   * @param event the event that caused this method call
+   * 
+	 * @see java.awt.event.MouseListener#mouseExited(java.awt.event.MouseEvent)
+	 */
+	public void mouseExited(MouseEvent event) {
 		// TODO Auto-generated method stub
 		
 	}
 
-	@Override
-	public void mouseExited(MouseEvent arg0) {
+	/**
+	 * Called when a mouse button is pressed
+	 * 
+   * @param event the event that caused this method call
+	 *
+	 * @see java.awt.event.MouseListener#mousePressed(java.awt.event.MouseEvent)
+	 */
+	public void mousePressed(MouseEvent event) {
 		// TODO Auto-generated method stub
-		
 	}
 
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseReleased(MouseEvent arg0) {
+	/**
+	 * Called when a mouse button is released
+	 * 
+   * @param event the event that caused this method call
+	 *
+	 * @see java.awt.event.MouseListener#mouseReleased(java.awt.event.MouseEvent)
+	 */
+	public void mouseReleased(MouseEvent event) {
 		// TODO Auto-generated method stub
 		
 	}

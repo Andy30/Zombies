@@ -10,24 +10,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+/**
+ * @author Andy Jenkins, Dan Cassey
+ */
 public class ImageLoader {
 	
-	private BufferedImage sourceImage;
-	
-	public ImageLoader()  {
-		
-	}
-	
-	public int getHeight()  {
-		return sourceImage.getHeight();
-	}
-	
-	public int getWidth()  {
-		return sourceImage.getWidth();
-	}
-	
-	public Image getImage(String ref)  {
-		
+  /**
+	 * Loads an image in from a specified file path and returns an image object for this image
+	 * 
+	 * @param ref the file path of the image
+	 * @return a new image object for this image
+	 */
+	public static Image getImage(String ref)  {
+		BufferedImage sourceImage = null;
 		try  {
 			sourceImage = ImageIO.read(new File (ref));
 		} catch (IOException e)  {
@@ -35,8 +30,8 @@ public class ImageLoader {
 		}
 		
 		GraphicsConfiguration gc = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
-		Image image = gc.createCompatibleImage(this.sourceImage.getWidth(), this.sourceImage.getHeight(), Transparency.BITMASK);
-		image.getGraphics().drawImage(this.sourceImage, 0, 0, null);
+		Image image = gc.createCompatibleImage(sourceImage.getWidth(), sourceImage.getHeight(), Transparency.BITMASK);
+		image.getGraphics().drawImage(sourceImage, 0, 0, null);
 		
 		return image;
 	}

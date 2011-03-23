@@ -1,56 +1,84 @@
 package updatingZombieCode;
 
-import java.awt.Image;
-
+/**
+ * @author Andy Jenkins, Dan Cassey
+ */
 public class Peel extends Character {
-	
-	private String[][] roger = { {"roger_peel.jpg"}};
-	private Image[][] rogerImages = new Image[4][4];
-	private ImageLoader loadImages = new ImageLoader();
-	private int xPosition;
-	private int yPosition;
-	private boolean alive;
-	
-	public Peel(int xMovement, int yMovement, int xPosition, int yPosition) {
-		super(xMovement, yMovement);
-		this.rogerImages = initializeImages(roger, rogerImages, loadImages);
-		this.xPosition = xPosition;
-		this.yPosition = yPosition;
-		alive = true;
-	}
-	
-	public int getImageHeight()  {
-		return rogerImages[0][0].getHeight(null);
-	}
-	
-	public int getImageWidth()  {
-		return rogerImages[0][0].getWidth(null);
-	}
-	
-	public int getXPosition()  {
-		return this.xPosition;
-	}
-	
-	public int getYPosition()  {
-		return this.yPosition;
-	}
-	
-	public boolean isAlive()  {
-		return alive;
-	}
-	
-	public Image getImageFrame(int direction, int frameNumber)  {
-		return this.rogerImages[direction][frameNumber];
-	}
-	
-	public void move(double delta)  {
-		xPosition += (delta * getxMovement())/1000;
-		if(xPosition < 0) { xPosition = 0; }
-		if(xPosition + loadImages.getWidth() > 800) { xPosition = 800 - loadImages.getWidth(); }
-		
-		yPosition += (delta * getyMovement())/1000; 
-		if(yPosition < 0){ yPosition = 0; }
-		if(yPosition + loadImages.getHeight() > 600){ yPosition = 600 - loadImages.getHeight(); }
-	}	
+
+  private String[][]  roger      = { { "roger_peel.jpg" } };
+  private int         xPosition;
+  private int         yPosition;
+  private boolean     alive;
+
+  /**
+   * Create a new Dr Peel character
+   * 
+   * @param xMovement
+   *          the speed at which Peel can move horizontally
+   * @param yMovement
+   *          the speed at which Peel can move vertically
+   * @param xPosition
+   *          the x co-ordinate of Peel's starting position
+   * @param yPosition
+   *          the y co-ordinate of Peel's starting position
+   */
+  public Peel(int xMovement, int yMovement, int xPosition, int yPosition) {
+    super(xMovement, yMovement);
+    this.initializeImages(roger);
+    this.xPosition = xPosition;
+    this.yPosition = yPosition;
+    alive = true;
+  }
+
+  /**
+   * Get Peel's current x co-ordinate
+   * 
+   * @return Peel's current x co-ordinate
+   */
+  public int getXPosition() {
+    return this.xPosition;
+  }
+
+  /**
+   * Get Peel's current y co-ordinate
+   * 
+   * @return Peel's current y co-ordinate
+   */
+  public int getYPosition() {
+    return this.yPosition;
+  }
+
+  /**
+   * Get Peel's current health status
+   * 
+   * @return true if Peel is alive, false otherwise
+   */
+  public boolean isAlive() {
+    return alive;
+  }
+
+  /**
+   * Moves the Peel character a given amount
+   * 
+   * @param delta
+   *          the amount to move
+   */
+  public void move(double delta) {
+    xPosition += (delta * getXMovement()) / 1000;
+    if (xPosition < 0) {
+      xPosition = 0;
+    }
+    if (xPosition + getImageWidth() > 800) {
+      xPosition = 800 - getImageWidth();
+    }
+
+    yPosition += (delta * getYMovement()) / 1000;
+    if (yPosition < 0) {
+      yPosition = 0;
+    }
+    if (yPosition + getImageHeight() > 600) {
+      yPosition = 600 - getImageHeight();
+    }
+  }
 
 }
