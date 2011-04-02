@@ -1,6 +1,5 @@
 package updatingZombieCode;
 
-import java.awt.Image;
 import java.awt.Rectangle;
 
 /**
@@ -8,11 +7,9 @@ import java.awt.Rectangle;
  */
 public class Windows extends Enemy {
 
-  private String[][] windows       = { { "windows_logo.jpg" } };
+  private String[][] windows       = { { "windows_logo.jpg" }};
   private int        xWindowPosition;
   private int        yWindowPosition;
-  private int        xCharPosition;
-  private int        yCharPosition;
   private boolean    alive;
   private Rectangle  enemyWindow   = new Rectangle();
   private Rectangle  characterRect = new Rectangle();
@@ -23,22 +20,16 @@ public class Windows extends Enemy {
    * 
    * @param peel
    *          the peel to chase
-   * @param xCharPosition
-   *          the x co-ordinate of the character to chase
-   * @param yCharPosition
-   *          the y co-ordinate of the character to chase
    * @param xWindowPosition
    *          the x co-ordinate of this windows logo
    * @param yWindowPosition
    *          the y co-ordinate of this windows logo
    */
-  public Windows(Peel peel, int xCharPosition, int yCharPosition, int xWindowPosition, int yWindowPosition) {
-    super(peel, xCharPosition, yCharPosition);
+  public Windows(Peel peel, int xWindowPosition, int yWindowPosition) {
+    super(peel);
     this.initializeImages(windows);
     this.xWindowPosition = xWindowPosition;
     this.yWindowPosition = yWindowPosition;
-    this.xCharPosition = xCharPosition;
-    this.yCharPosition = yCharPosition;
     alive = true;
     this.peel = peel;
   }
@@ -76,7 +67,7 @@ public class Windows extends Enemy {
    * @return true if the characters collide, false otherwise
    */
   public boolean collidesWith() {
-    characterRect.setBounds(xCharPosition, yCharPosition, peel.getImageWidth(), peel.getImageHeight());
+    characterRect.setBounds(peel.getXPosition(), peel.getYPosition(), peel.getImageWidth(), peel.getImageHeight());
     enemyWindow.setBounds(xWindowPosition, yWindowPosition, peel.getImageWidth(), peel.getImageHeight());
     return characterRect.intersects(enemyWindow);
   }

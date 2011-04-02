@@ -5,7 +5,7 @@ package updatingZombieCode;
  */
 public class Peel extends Character {
 
-  private String[][]  roger      = { { "roger_peel.jpg" } };
+  private String[][]  roger      = {{ "roger_peel.jpg" }, {"explosion_clip_art_13149.jpg"} };
   private int         xPosition;
   private int         yPosition;
   private boolean     alive;

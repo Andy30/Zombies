@@ -27,9 +27,9 @@ public abstract class MovingImage {
   public void initializeImages(String[][] ref) {
     // TODO - Change for loop depending on how many movement actions there are.
     imageArray = new Image[ref.length][ref[0].length];
-    for (int z = 0; z < imageArray.length; z++) {
-      for (int t = 0; t < imageArray[0].length; t++) {
-        imageArray[z][t] = ImageLoader.getImage(ref[z][t]);
+    for (int i = 0; i < imageArray.length; i++) {
+      for (int j = 0; j < imageArray[i].length; j++) {
+        imageArray[i][j] = ImageLoader.getImage(ref[i][j]);
       }
     }
   }
@@ -37,7 +37,7 @@ public abstract class MovingImage {
   /**
    * Paint this image to the screen
    * 
-   * @param graphic the buffer to paint this image to
+   * @param graphic the back buffer to paint this image to
    * @param frameSet the set of frames to use when painting this image
    * @param x the x co-ordinate of the position to paint the image
    * @param y the y co-ordinate of the position to paint the image

@@ -12,10 +12,8 @@ public abstract class Enemy extends MovingImage {
 	 * Creates a new enemy at the given position
 	 * 
 	 * @param peel the Peel to chase
-	 * @param xCharPosition the x co-ordinate of this character's position
-	 * @param yCharPosition the y co-ordinate of this character's position
 	 */
-	public Enemy(Peel peel, int xCharPosition, int yCharPosition) {	
+	public Enemy(Peel peel) {	
 		//TODO - Create a method to look at which type of Characters have been created instead of just making a Peel.
 	}
 	
@@ -26,8 +24,8 @@ public abstract class Enemy extends MovingImage {
 	 * @param checkY the y co-ordinate to move towards
 	 */
 	public void moveTowards(double checkX, double checkY)  {
-		this.yCharPosition += (int) (this.yCharPosition + ((checkY - this.yCharPosition)/10000));
-		this.xCharPosition += (int) (this.xCharPosition + ((checkX - this.xCharPosition)/10000));			
+		this.yCharPosition += (int) (this.yCharPosition + ((checkY - this.yCharPosition)/50000));
+		this.xCharPosition += (int) (this.xCharPosition + ((checkX - this.xCharPosition)/50000));			
 	}
 	
 }

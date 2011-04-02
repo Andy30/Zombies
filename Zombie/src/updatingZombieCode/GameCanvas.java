@@ -14,12 +14,12 @@ import java.util.Random;
 public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseListener {
 
 	private static final long serialVersionUID = -8863915821741897184L;
-	final int FWidth = 800;
-	final int FHeight = 600;
+	final int frameWidth;
+	final int frameHeight;
 	final private int period = 10;
 	private BufferStrategy buffer;
 	private Graphics graphics;
-	private Thread t;
+	private Thread t = null;
 	private boolean finished = false;
 	private int COUNT = 0;
 	private Peel peel;
@@ -29,10 +29,15 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 	 * Creates a new canvas object which displays the game
 	 * 
 	 * Additionally, a Peel and 5 zombies are added to this canvas
+	 * 
+	 * @param frameWidth the width of this canvas
+	 * @param frameHeight the height of this canvas
 	 */
-	public GameCanvas()  {
+	public GameCanvas(int frameWidth, int frameHeight)  {
+	  this.frameHeight = frameHeight;
+	  this.frameWidth = frameWidth;
 	  this.setIgnoreRepaint(true);
-    this.setBounds(0, 0, FWidth, FHeight);
+    this.setBounds(0, 0, this.frameWidth, this.frameHeight);
     this.setBackground(Color.white);
     this.setVisible(true);  
     this.peel = new Peel(10, 20, 25, 80);
@@ -55,14 +60,12 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 	
 	private void addRandomZombie(){
 		Random ran = new Random();
-		int[] hSide = {1, this.FHeight};
-		int[] vSide = {1, this.FWidth};
+		int[] hSide = {1, this.frameHeight};
+		int[] vSide = {1, this.frameWidth};
 		if(ran.nextInt(2) > 0){
-			window.add(new Windows(peel, peel.getXPosition(), peel.getYPosition(), 
-					hSide[ran.nextInt(2)], ran.nextInt(FWidth)));
+			window.add(new Windows(peel, hSide[ran.nextInt(2)], ran.nextInt(frameWidth)));
 		} else {
-			window.add(new Windows(peel, peel.getXPosition(), peel.getYPosition(), 
-					vSide[ran.nextInt(2)], ran.nextInt(FHeight)));
+			window.add(new Windows(peel, vSide[ran.nextInt(2)], ran.nextInt(frameHeight)));
 		}
 	}
 	
@@ -84,7 +87,7 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 	 * @see java.lang.Runnable#run()
 	 */
 	public void run()  {	
-		while(!finished){
+		while(true){
 			
 			update();
 			render();
@@ -123,13 +126,14 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 	 * Draws to the back buffer. Unless draw is called it stays in back buffer and you can't see it.
 	 */
 	public void render()  {
-		//draw to back buffer.
+		//get the back buffer.
 		graphics = buffer.getDrawGraphics();
 		//set the back buffer to our background colour (white)
 		graphics.setColor(Color.white);
 		//Turns everything on the screen white, allows us to paint new stuff.
-		graphics.fillRect( 0, 0, FWidth, FHeight);
+		graphics.fillRect( 0, 0, frameWidth, frameHeight);
 		
+		// draw everything to the back buffer
 		peel.draw(graphics, MovingImage.ALIVE, peel.getXPosition(), 
 				peel.getYPosition());
 		for(int y = 0; y < window.size(); y++)  {
