@@ -77,4 +77,15 @@ public class Magazine {
     }
     return success;
   }
+  
+  /**
+   * @return current number of rounds in the Magazine
+   */
+  public int getCurrentNumRounds() {
+    return this.currentSize;
+  }
+  
+  public int getMaxSize() {
+    return this.maxSize;
+  }
 }

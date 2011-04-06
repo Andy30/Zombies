@@ -15,7 +15,7 @@ import java.util.Random;
 public class Weapon {
 
   /** The Magazine containing rounds that can be fired off. */
-  private Magazine  clip;
+  private Magazine  mag;
 
   /** The extra rounds a Weapon has which aren't loaded into the Magazine at the time. */
   private int   stockRounds;
@@ -36,7 +36,7 @@ public class Weapon {
   /**
    * Constructor for objects of class Weapon.
    * 
-   * @param clip
+   * @param mag
    *          the conceptual model of the Magazine for this Weapon
    * @param stockRounds
    *          the number of extra rounds that the Weapon will start with
@@ -45,8 +45,8 @@ public class Weapon {
    * @param img
    *          single Image of the weapon, viewed top-down
    */
-  public Weapon(Magazine clip, int stockRounds, int baseDamagePerRound, Image img) {
-    this.clip = clip;
+  public Weapon(Magazine mag, int stockRounds, int baseDamagePerRound, Image img) {
+    this.mag = mag;
     this.stockRounds = stockRounds;
     this.baseDamagePerRound = baseDamagePerRound;
     this.img = img;
@@ -59,7 +59,7 @@ public class Weapon {
    */
   public double fire() {
     // Attempt to deplete 1 round from the Magazine
-    boolean couldFire = this.clip.fire();
+    boolean couldFire = this.mag.fire();
     // The variable containing how much damage the round will do.
     // (If there's no rounds left, the damage defaults to zero.)
     double damageDealt = 0;
@@ -82,5 +82,24 @@ public class Weapon {
    */
   public Image getImage() {
     return this.img;
+  }
+  
+  /**
+   * Reload the Weapon's Magazine.
+   */
+  public void reload() {
+    // If mag empty, it's time to reload!
+    if (this.mag.getCurrentNumRounds() == 0) {
+      // If stock ammo is in plentiful supply, we can get away with the simple reload operation.
+      if (this.stockRounds > this.mag.getMaxSize()) {
+        this.mag.reload();
+        this.stockRounds -= this.mag.getMaxSize();
+      }
+      else {
+        // If ammo is very low, just reload with everything the player's got left.
+        this.mag.reload(this.stockRounds);
+        this.stockRounds = 0;
+      }
+    }
   }
 }
