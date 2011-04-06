@@ -72,6 +72,12 @@ public class Weapon {
       double lossInEffectiveness = new Random().nextDouble();
 
       damageDealt = this.baseDamagePerRound - lossInEffectiveness;
+      
+      // TODO play firing sound?
+    }
+    else {
+      // Not enough ammo
+      // TODO: play 'clunking' failure noise (to indicate that there are no rounds left in the Magazine)
     }
 
     return damageDealt;

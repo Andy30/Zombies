@@ -85,6 +85,9 @@ public class Magazine {
     return this.currentSize;
   }
   
+  /**
+   * @return the maximum number of rounds that this Magazine can hold
+   */
   public int getMaxSize() {
     return this.maxSize;
   }
