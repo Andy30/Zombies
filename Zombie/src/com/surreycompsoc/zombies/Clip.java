@@ -30,9 +30,17 @@ public class Clip {
 
   /**
    * Depletes the number of rounds in the Clip by 1.
+   * @return whether firing was successful (i.e. whether there were still enough rounds in the Clip)
    */
-  public void fire() {
-    this.currentSize--;
+  public boolean fire() {
+    boolean success = false;
+    
+    if (this.currentSize > 0) {
+      this.currentSize--;
+      success = true;
+    }
+    
+    return success;
   }
 
   /**
