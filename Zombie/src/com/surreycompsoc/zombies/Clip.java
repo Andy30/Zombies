@@ -42,17 +42,29 @@ public class Clip {
   public void reload() {
     this.currentSize = this.maxSize;
   }
-  
+
   /**
-   * Partially reload the Clip by adding the specified number of rounds to it. Would most likely be used if you had little ammo left and couldn't do a complete restock.
-   * @param amount the number of rounds to add to the Clip
+   * Partially reload the Clip by adding the specified number of rounds to it. Would most likely be used if you had little ammo left
+   * and couldn't do a complete restock. If you attempt to pass in some massive amount of extra rounds that would overstuff the
+   * Clip, or if you attempt to pass in zero or a negative number of rounds, the method fails and returns false.
+   * 
+   * @param amount
+   *          the number of rounds to add to the Clip
+   * @return whether the reload operation could be completed
    */
-  public void reload(int amount) {
-    int newNum = this.currentSize += amount;
-    
-    // Can only reload the clip with the specified amount if the Clip can physically hold the new number of rounds.
-    if (newNum <= this.maxSize) {
-      this.currentSize = newNum;
+  public boolean reload(int amount) {
+    boolean success = false;
+
+    // Can't reload with fewer than 1 round - that would be pointless.
+    if (amount > 0) {
+      int newNum = this.currentSize += amount;
+
+      // Can only reload the clip with the specified amount if the Clip can physically hold the new number of rounds.
+      if (newNum <= this.maxSize) {
+        this.currentSize = newNum;
+        success = true;
+      }
     }
+    return success;
   }
 }
