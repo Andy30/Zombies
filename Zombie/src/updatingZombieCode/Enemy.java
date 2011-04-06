@@ -4,6 +4,8 @@ package updatingZombieCode;
  * @author Andy Jenkins
  */
 public abstract class Enemy extends MovingImage {
+	
+	//Can I commit and push?
 
 	private int xCharPosition;
 	private int yCharPosition;
