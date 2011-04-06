@@ -14,9 +14,9 @@ import java.util.Random;
 public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseListener {
 
 	private static final long serialVersionUID = -8863915821741897184L;
-	final int frameWidth;
-	final int frameHeight;
-	final private int period = 10;
+	private final int frameWidth;
+	private final int frameHeight;
+	private final double refreshRate = (1000/60);
 	private BufferStrategy buffer;
 	private Graphics graphics;
 	private Thread t = null;
@@ -93,9 +93,8 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 			render();
 			draw();
 			
-			long timeTaken = System.currentTimeMillis();
 			//Time we're going to give the machine to do it's garbage ext..
-			long sleepTime = period - timeTaken;
+			int sleepTime = (int) refreshRate;
 			
 			try{
 				Thread.sleep(sleepTime);
