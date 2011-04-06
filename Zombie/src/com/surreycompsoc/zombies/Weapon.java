@@ -12,4 +12,10 @@ package com.surreycompsoc.zombies;
  */
 public class Weapon {
 
+  /** The Clip containing rounds that can be fired off. */
+  private Clip clip;
+  
+  /** The extra rounds a Weapon has which aren't loaded into the Clip at the time. */
+  private int stockRounds;
+  
 }
