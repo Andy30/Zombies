@@ -162,21 +162,24 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 	 *
 	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
 	 */
-	public void keyPressed(KeyEvent key) {
+	public void keyPressed(KeyEvent e) {
 		if (peel.isAlive() == true)  {
-			if (key.getKeyCode() == KeyEvent.VK_LEFT)  {
+			
+			int key = e.getKeyCode();
+			
+			if (key == KeyEvent.VK_LEFT)  {
 				peel.setXMovement(-1);
 			}
-			if (key.getKeyCode() == KeyEvent.VK_RIGHT)  {
+			if (key == KeyEvent.VK_RIGHT)  {
 				peel.setXMovement(1);
 			}
-			if (key.getKeyCode() == KeyEvent.VK_UP)  {
+			if (key == KeyEvent.VK_UP)  {
 				peel.setYMovement(-1);
 			}
-			if (key.getKeyCode() == KeyEvent.VK_DOWN)  {
+			if (key == KeyEvent.VK_DOWN)  {
 				peel.setYMovement(1);
 			}
-			if(key.getKeyCode() == KeyEvent.VK_SPACE){
+			if(key == KeyEvent.VK_SPACE){
 				this.COUNT = 5000;
 			}
 		}
@@ -189,18 +192,21 @@ public class GameCanvas extends Canvas implements Runnable, KeyListener, MouseLi
 	 *
 	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
 	 */
-	public void keyReleased(KeyEvent key) {
+	public void keyReleased(KeyEvent e) {
 		if (peel.isAlive() == true)  {
-			if (key.getKeyCode() == KeyEvent.VK_LEFT)  {
+			
+			int key = e.getKeyCode();
+			
+			if (key == KeyEvent.VK_LEFT)  {
 				peel.setXMovement(0);
 			}
-			if (key.getKeyCode() == KeyEvent.VK_RIGHT)  {
+			if (key == KeyEvent.VK_RIGHT)  {
 				peel.setYMovement(0);
 			}
-			if (key.getKeyCode() == KeyEvent.VK_UP)  {
+			if (key == KeyEvent.VK_UP)  {
 				peel.setYMovement(0);
 			}
-			if (key.getKeyCode() == KeyEvent.VK_DOWN)  {
+			if (key == KeyEvent.VK_DOWN)  {
 				peel.setYMovement(0);
 			}
 		}		
